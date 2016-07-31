@@ -11,6 +11,9 @@ import java.util.List;
 import rx.Observable;
 import rx.Observer;
 
+/**
+ * https://medium.com/@kurtisnusbaum/rxandroid-basics-part-1-c0d5edcf6850#.to5vs1sbl
+ */
 public class Example1Activity extends AppCompatActivity {
 
     RecyclerView mColorListView;
@@ -24,10 +27,25 @@ public class Example1Activity extends AppCompatActivity {
     }
 
     private void createObservable() {
+        // TODO 1 We’ll then use the emitted value to populate the list.
+        /**
+         * This method creates an Observable such that when an Observer subscribes,
+         * the onNext() of the Observer is immediately called with the argument provided to Observable.just().
+         * The onComplete() will then be called since the Observable has no other values to emit.
+         */
+
+
+        /**
+         *         getColorList() = non blocking
+         * Nhưng Observable.just(mRestClient.getFavoriteTvShows()) = blocking network call.
+         * -> will be evaluated immediately and block the UI thread.
+         */
         Observable<List<String>> listObservable = Observable.just(getColorList());
 
         listObservable.subscribe(new Observer<List<String>>() {
 
+            // TODO: 7/30/16 3 there is no more data (we only gave our Observable a single value to emit in Observable.just()), the onComplete() callback is called.
+            //  don’t care about what happens when the Observable has completed so we leave the onComplete() method empty.
             @Override
             public void onCompleted() {
 
@@ -38,6 +56,7 @@ public class Example1Activity extends AppCompatActivity {
 
             }
 
+            // TODO 2 The onNext() method is called and the emitted list of colors is set as the data for the adapter.
             @Override
             public void onNext(List<String> colors) {
                 mSimpleStringAdapter.setStrings(colors);
