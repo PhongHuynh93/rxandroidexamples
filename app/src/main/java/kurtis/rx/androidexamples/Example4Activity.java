@@ -24,7 +24,7 @@ public class Example4Activity extends AppCompatActivity {
     }
 
     /**
-     * Subjects: are special objects that are both an Observable and an Observer.
+     * todo 1 Subjects: are special objects that are both an Observable and an Observer.
      *
      * I like to think of Subjects as a pipe.
      * You can put things into one end of the Subject and it will come out the other.
@@ -85,7 +85,7 @@ public class Example4Activity extends AppCompatActivity {
      */
     private void onIncrementButtonClick() {
         mCounter++;
-        // đây là observer do nó gọi được hàm onNext()
+        // todo 2 đây là observer do nó gọi được hàm onNext()
         mCounterEmitter.onNext(mCounter);
     }
 }
