@@ -1,7 +1,6 @@
 package kurtis.rx.androidexamples;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -24,8 +23,23 @@ public class Example4Activity extends AppCompatActivity {
         createCounterEmitter();
     }
 
+    /**
+     * Subjects: are special objects that are both an Observable and an Observer.
+     *
+     * I like to think of Subjects as a pipe.
+     * You can put things into one end of the Subject and it will come out the other.
+     *
+     * PublishSubject: There are several types of Subjects, but we’re going to use the simplest one: a PublishSubject.
+     * With a PublishSubject, as soon as you put something in one end of the pipe it immediately comes out the other.
+     *
+     *  We said that Subjects were Observables which means we can Observe them like we would any other Observable.
+     *
+     *
+     *
+     */
     private void createCounterEmitter() {
         mCounterEmitter = PublishSubject.create();
+        // đây là observable lý do là ta oo thể gắn subscribe vào được
         mCounterEmitter.subscribe(new Observer<Integer>() {
             @Override
             public void onCompleted() {
@@ -65,8 +79,13 @@ public class Example4Activity extends AppCompatActivity {
         });
     }
 
+    /**
+     * It calls onNext() on the mCounterEmitter with the new value of mCounter.
+
+     */
     private void onIncrementButtonClick() {
         mCounter++;
+        // đây là observer do nó gọi được hàm onNext()
         mCounterEmitter.onNext(mCounter);
     }
 }

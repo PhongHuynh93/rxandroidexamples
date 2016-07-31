@@ -34,6 +34,20 @@ public class Example3Activity extends AppCompatActivity {
         createSingle();
     }
 
+    /**
+     * Using Singles
+     * let’s do it in a simpler fashion.
+     *
+     * Observables are great, but in many cases they’re kind of overkill.
+     * For example, you’ll notice in the last two examples we only ever emitted a single value and never used the onComplete() callback.
+     *
+     * there’s a simpler version of an Observable called a Single.
+     * Singles work almost exactly the same as Observables.
+     * But instead of there being an onComplete(), onNext(), and onError(), there are only two callbacks: onSuccess() and onError().
+     *
+     *
+     *
+     */
     private void createSingle() {
         Single<List<String>> tvShowSingle = Single.fromCallable(new Callable<List<String>>() {
             @Override
