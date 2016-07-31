@@ -17,6 +17,14 @@ public class Example5Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         configureLayout();
 
+        /**
+         * You can think of map as a function that takes in one value and outputs another value. Usually there is some relationship between value put in to the map and the value that is output
+         *
+         * convert it from an Integer to a String -> One way we can do this is using map().
+         *
+         * As we’ll see in the next example, maps can be used to execute arbitrary code and help us transform data in very useful ways.
+         *
+         */
         Single.just(4).map(new Func1<Integer, String>() {
             @Override
             public String call(Integer integer) {
