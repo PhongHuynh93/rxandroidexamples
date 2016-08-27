@@ -40,10 +40,12 @@ public class Example1Activity extends AppCompatActivity {
          * Nhưng Observable.just(mRestClient.getFavoriteTvShows()) = blocking network call.
          * -> will be evaluated immediately and block the UI thread.
          */
+
+        // chưa phát ra
         Observable<List<String>> listObservable = Observable.just(getColorList());
 
+        // sẽ phát liền khi có 1 subcribe gắn và nó
         listObservable.subscribe(new Observer<List<String>>() {
-
             // TODO: 7/30/16 3 there is no more data (we only gave our Observable a single value to emit in Observable.just()), the onComplete() callback is called.
             //  don’t care about what happens when the Observable has completed so we leave the onComplete() method empty.
             @Override
@@ -57,6 +59,10 @@ public class Example1Activity extends AppCompatActivity {
             }
 
             // TODO 2 The onNext() method is called and the emitted list of colors is set as the data for the adapter.
+            /**
+             * ta nhận thấy rằng "just" tạo Observable chứa 1 List<String>, là 1 list chứa cac String, nhưng nó ko phát tưng String mà nó phát hết 1 list of String.
+             * @param colors 1 list gồm các màu sác được phát ra.
+             */
             @Override
             public void onNext(List<String> colors) {
                 mSimpleStringAdapter.setStrings(colors);
