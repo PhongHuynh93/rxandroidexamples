@@ -51,6 +51,7 @@ public class Example4Activity extends AppCompatActivity {
 
             }
 
+            // TODO: 8/27/16 1b -  onNext này lúc đâu sẽ ko được chạy, khi ta tự gọi onNext thì nó mới được chạy
             @Override
             public void onNext(Integer integer) {
                   mCounterDisplay.setText(String.valueOf(integer));
