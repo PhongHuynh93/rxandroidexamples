@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import rx.subjects.PublishSubject;
@@ -26,6 +28,7 @@ import rx.subjects.PublishSubject;
  */
 public class Example6Activity extends AppCompatActivity {
 
+    private static final String TAG = Example6Activity.class.getName();
     private RestClient mRestClient;
     private EditText mSearchInput;
     private TextView mNoResultsIndicator;
@@ -44,6 +47,9 @@ public class Example6Activity extends AppCompatActivity {
         listenToSearchInput();
     }
 
+    /**
+     * todo 1 - nhớ method debounce() là method mới ở đây
+     */
     private void createObservables() {
         /**
          * Well if you look at how we’ve setup the TextWatcher, you’ll notice a new value is going to come into our PublishSubject every, single time the user adds or removes a character from their search.
@@ -82,6 +88,10 @@ public class Example6Activity extends AppCompatActivity {
          The | represents emissions happening on the UI Thread and the ||| represents emissions happening on the IO Scheduler.
 
          */
+
+        /**
+         * todo 6 - cái onNext là nó phải đi wa 1 bộ lọc nó mới tới onNext
+         */
         mSearchResultsSubject = PublishSubject.create();
         mTextWatchSubscription = mSearchResultsSubject
                 .debounce(400, TimeUnit.MILLISECONDS)
@@ -94,6 +104,12 @@ public class Example6Activity extends AppCompatActivity {
                     @Override
                     public List<String> call(String s) {
                         return mRestClient.searchForCity(s);
+                    }
+                })
+                .doOnNext(new Action1<List<String>>() {
+                    @Override
+                    public void call(List<String> strings) {
+                        Log.e(TAG, "call: phải xứ lỷ mới chuối string trước khi ta handle nó ");
                     }
                 })
                 /**
@@ -111,6 +127,10 @@ public class Example6Activity extends AppCompatActivity {
 
                     }
 
+                    /**
+                     * todo 2 - hàm onNext xử lý chuỗi String
+                     * @param cities
+                     */
                     @Override
                     public void onNext(List<String> cities) {
                         handleSearchResults(cities);
@@ -144,6 +164,13 @@ public class Example6Activity extends AppCompatActivity {
 
             }
 
+            /**
+             * todo 2 - do subject vừa là 2 cái nên khi text change ta se gọi hàm onNext để xử lý chuỗi string đã nhập vào
+             * @param s
+             * @param start
+             * @param before
+             * @param count
+             */
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mSearchResultsSubject.onNext(s.toString());
@@ -166,6 +193,9 @@ public class Example6Activity extends AppCompatActivity {
         mSearchResults.setAdapter(mSearchResultsAdapter);
     }
 
+    /**
+     * todo 5- trong onDestroy ta phải unsubscribe cái subcription tại nó chạy trên io thread và ta ko muốn nó update UI thread khi chạy chưa xong
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
