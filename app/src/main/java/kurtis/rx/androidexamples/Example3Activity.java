@@ -35,7 +35,7 @@ public class Example3Activity extends AppCompatActivity {
     }
 
     /**
-     * Using Singles
+     * todo 1 Using Singles
      * let’s do it in a simpler fashion.
      *
      * Observables are great, but in many cases they’re kind of overkill.
@@ -61,6 +61,10 @@ public class Example3Activity extends AppCompatActivity {
             }
         });
 
+
+        /**
+         * todo 2 - Single khác với khác biệt với Observable ở chổ nó chỉ có 2 method
+         */
         mTvShowSubscription = tvShowSingle
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
