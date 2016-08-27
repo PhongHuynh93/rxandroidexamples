@@ -41,10 +41,10 @@ public class Example1Activity extends AppCompatActivity {
          * -> will be evaluated immediately and block the UI thread.
          */
 
-        // chưa phát ra
+        // chưa phát ra, nhưng hàm getColorList() sẽ dc chạy ngay lập tức, hàm getColorList() chạy rất nhanh nên ko cản trở UI thread.
         Observable<List<String>> listObservable = Observable.just(getColorList());
 
-        // sẽ phát liền khi có 1 subcribe gắn vào nó, và nó phát ra getColorList() nhưng hàm này chạy rất nhanh nên nó ko cản trở UI thread
+        // sẽ phát liền khi có 1 subcribe gắn vào nó
         listObservable.subscribe(new Observer<List<String>>() {
             // TODO: 7/30/16 3 there is no more data (we only gave our Observable a single value to emit in Observable.just()), the onComplete() callback is called.
             //  don’t care about what happens when the Observable has completed so we leave the onComplete() method empty.
