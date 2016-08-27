@@ -44,6 +44,8 @@ public class Example2Activity extends AppCompatActivity {
      * Observable.fromCallable() allows us to delay the creation of a value to be emitted by an Observable.
      * This is handy when the value you want to emit from your Observable needs to be created off of the UI thread.
      */
+
+    // tức là hàm getFavoriteTvShows() chưa được chạy
     private void createObservable() {
         Observable<List<String>> tvShowObservable = Observable.fromCallable(new Callable<List<String>>() {
             @Override
@@ -53,7 +55,7 @@ public class Example2Activity extends AppCompatActivity {
         });
 
         /**
-         * // TODO: 7/30/16 2
+         * // TODO: 7/30/16 2 khi có subcribe mới chạy hàm getFavoriteTvShows() được
          * subscribeOn():
          * alters the Observable we created above.
          * All of the code that this Observable would normally run, including the code the gets run upon subscription,
@@ -116,7 +118,7 @@ public class Example2Activity extends AppCompatActivity {
     }
 
     /**
-     * We should always unsubscribe our Observers in order to prevent nasty things from happening when we’re using Observables to load things asynchronously.
+     * todo 3 - We should always unsubscribe our Observers in order to prevent nasty things from happening when we’re using Observables to load things asynchronously.
      */
     @Override
     protected void onDestroy() {
